@@ -11,7 +11,7 @@ const setRefreshToken = (res, token) => {
   res.cookie("lfyrftkn", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    sameSite: "none",
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 };
@@ -84,7 +84,7 @@ export const logout = (req, res) => {
     res.clearCookie("lfyrftkn", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      sameSite: "none",
     });
 
     res.status(200).json({ success: true, message: "Logged out successfully" });
