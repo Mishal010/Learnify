@@ -13,6 +13,7 @@ import reviewRoute from "./routes/reviewRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import currencyRoutes from "./routes/currencyRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
 import { handleStripeWebhook } from "./controllers/paymentController.js";
 connectDB();
 
@@ -47,6 +48,7 @@ app.use("/api/review", reviewRoute);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/currency", currencyRoutes);
+app.use("/api/contact", contactRoutes);
 
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);

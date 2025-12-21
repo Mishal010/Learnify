@@ -55,13 +55,16 @@ const paymentSchema = mongoose.Schema(
       type: Object,
       default: {},
     },
+    stripeEventIds: {
+      type: [String],
+      default: [],
+    },
   },
   { timestamps: true }
 );
 
 // Index for faster queries
 paymentSchema.index({ user: 1, createdAt: -1 });
-paymentSchema.index({ stripeSessionId: 1 });
 paymentSchema.index({ status: 1 });
 
 // Auto-delete pending payments after a fixed TTL (default: 1 hour)

@@ -11,10 +11,12 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export const sendEmail = async ({ to, subject, html }) => {
+export const sendEmail = async ({ to, subject, html, replyTo }) => {
   try {
     const from = process.env.EMAIL_FROM || process.env.EMAIL_USER;
-    const info = await transporter.sendMail({ from, to, subject, html });
+    const mailOptions = { from, to, subject, html };
+    if (replyTo) mailOptions.replyTo = replyTo;
+    const info = await transporter.sendMail(mailOptions);
     return info;
   } catch (error) {
     console.error("❌ Email sending failed:", error);

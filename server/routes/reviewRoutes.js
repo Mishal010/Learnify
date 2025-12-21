@@ -11,7 +11,7 @@ import { isAuthenticated } from "../middleware/authMiddleware.js";
 const router = Router();
 
 router.get("/my-reviews", isAuthenticated, getMyReviews);
-router.get("/course/:courseId", isAuthenticated, getAllReviews);
+router.get("/course/:courseId", getAllReviews);
 
 router.post("/create/course/:courseId", isAuthenticated, createReview);
 

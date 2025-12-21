@@ -24,6 +24,14 @@ router.get(
   enrollments
 );
 
+// Student-only endpoint to get the authenticated student's enrollments
+router.get(
+  "/my-enrollments",
+  isAuthenticated,
+  authorizeRoles(["student", "teacher"]),
+  enrollments
+);
+
 router.put("/profile", isAuthenticated, updateProfile);
 
 router.delete("/:id", isAuthenticated, authorizeRoles(["admin"]), deleteUser); // Also the owner of the account should be able to delete his/her profile - refactor

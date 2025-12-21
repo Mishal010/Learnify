@@ -3,68 +3,101 @@ export const resetPasswordTemplate = ({
   resetUrl,
   year = new Date().getFullYear(),
 }) => `
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Reset your Learnify password</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reset Your Password</title>
   <style>
-    body,table,td,a{ -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; }
-    table,td{ mso-table-lspace:0pt; mso-table-rspace:0pt; }
-    img{ -ms-interpolation-mode:bicubic; border:0; height:auto; line-height:100%; outline:none; text-decoration:none; }
-    body{ margin:0; padding:0; width:100% !important; font-family:'Helvetica Neue',Arial,sans-serif; background-color:#f4f8fc; color:#2f3a45; }
+    /* Reset & Client Fixes */
+    body { margin: 0; padding: 0; width: 100%; background-color: #f3f4f6; -webkit-font-smoothing: antialiased; }
+    table { border-spacing: 0; border-collapse: collapse; }
+    img { border: 0; outline: none; }
+    
+    /* Typography */
+    body, td { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #374151; }
+    
+    /* Elements */
+    .wrapper { width: 100%; table-layout: fixed; background-color: #f3f4f6; padding-bottom: 60px; }
+    .main-table { margin: 0 auto; background-color: #ffffff; width: 100%; max-width: 600px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+    
+    /* Header */
+    .brand-stripe { height: 6px; background: linear-gradient(90deg, #4f46e5, #818cf8); width: 100%; }
+    .header { padding: 40px 40px 20px 40px; text-align: center; }
+    .logo-text { font-size: 24px; font-weight: 800; color: #111827; letter-spacing: -0.5px; margin: 0; }
+    
+    /* Body */
+    .content { padding: 20px 40px 40px 40px; }
+    h1 { margin: 0 0 20px; font-size: 26px; font-weight: 700; color: #111827; text-align: center; letter-spacing: -0.5px; }
+    p { margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: #4b5563; }
+    
+    /* Button */
+    .btn-container { text-align: center; margin: 32px 0; }
+    .btn { display: inline-block; background-color: #4f46e5; color: #ffffff; padding: 16px 36px; font-size: 16px; font-weight: 600; text-decoration: none; border-radius: 50px; box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2); transition: all 0.2s; }
+    .btn:hover { background-color: #4338ca; box-shadow: 0 6px 8px rgba(79, 70, 229, 0.3); }
+    
+    /* Security Note */
+    .security-note { background-color: #f9fafb; border-radius: 8px; padding: 16px; font-size: 14px; color: #6b7280; text-align: center; line-height: 1.5; border: 1px solid #e5e7eb; }
 
-    .container{ max-width:640px; margin:0 auto; background:#ffffff; border-radius:14px; overflow:hidden; box-shadow:0 6px 16px rgba(0,0,0,0.08); }
-    .header{ background:linear-gradient(90deg,#e3f2fd,#bbdefb); padding:30px; text-align:center; }
-    .header svg{ width:56px; height:56px; margin-bottom:10px; }
-    .brand{ font-size:22px; font-weight:700; color:#0b3b57; margin:0; }
+    /* Footer */
+    .footer { background-color: #f3f4f6; padding: 0 20px; text-align: center; }
+    .footer-text { font-size: 12px; color: #9ca3af; line-height: 1.5; margin-bottom: 8px; }
+    .footer a { color: #6b7280; text-decoration: underline; }
 
-    .body{ padding:30px; }
-    h1{ font-size:22px; margin:0 0 10px 0; color:#0b3b57; }
-    p{ margin:0 0 14px 0; font-size:15px; line-height:1.6; color:#455a64; }
-
-    .cta{ display:inline-block; margin-top:20px; padding:12px 22px; background:linear-gradient(180deg,#2196f3,#1976d2); color:#fff; text-decoration:none; font-weight:600; border-radius:8px; box-shadow:0 4px 12px rgba(33,150,243,0.25); }
-    .cta:hover{ background:#1e88e5; }
-
-    .footer{ padding:22px; background:#f9fbfe; text-align:center; font-size:13px; color:#78909c; border-top:1px solid #e1ebf5; }
-    a{ color:#1b81d6; text-decoration:none; }
-
-    @media(max-width:480px){
-      .body, .header, .footer{ padding:18px; }
-      h1{ font-size:20px; }
+    /* Mobile */
+    @media only screen and (max-width: 600px) {
+      .content, .header { padding: 24px !important; }
+      h1 { font-size: 22px !important; }
+      .btn { display: block; width: auto; }
     }
   </style>
 </head>
 <body>
-  <div style="padding:26px;background-color:#f4f8fc;">
-    <div class="container">
-      <div class="header">
-        <!-- Reuse Learnify logo -->
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-          <rect x="8" y="16" width="48" height="32" rx="6" fill="#E8F6FF"/>
-          <path d="M32 8L8 20L32 32L56 20L32 8Z" fill="#2196F3"/>
-          <path d="M20 36H44V40H20Z" fill="#1B81D6"/>
-        </svg>
-        <p class="brand">Learnify</p>
-      </div>
-
-      <div class="body">
-        <h1>Reset your password, ${name}</h1>
-        <p>We received a request to reset your password. Click the button below to choose a new one.</p>
-
-        <a href="${resetUrl}" class="cta">Reset Password</a>
-
-        <p style="margin-top:20px;">If you didn’t request a password reset, you can safely ignore this email — your account is secure.</p>
-        <p style="margin-top:12px;font-size:14px;color:#90a4ae;">For assistance, contact our <a href="#">Help Center</a>.</p>
-      </div>
-
-      <div class="footer">
-        <p>© ${year} Learnify. All rights reserved.</p>
-        <p>You received this email because you have an account on Learnify.</p>
-      </div>
-    </div>
-  </div>
+  <table class="wrapper" role="presentation">
+    <tr>
+      <td align="center">
+        <div style="height: 40px;"></div>
+        
+        <table class="main-table" role="presentation">
+          <tr><td class="brand-stripe"></td></tr>
+          
+          <tr>
+            <td class="header">
+               <div class="logo-text">Learnify<span style="color:#4f46e5">.</span></div>
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="content">
+              <h1>Reset your password</h1>
+              <p>
+                Hi ${name}, we received a request to reset the password for your Learnify account. If you made this request, please click the button below.
+              </p>
+              
+              <div class="btn-container">
+                <a href="${resetUrl}" class="btn">Reset Password</a>
+              </div>
+              
+              <div class="security-note">
+                <strong>Didn't ask for this?</strong>
+                <br>
+                You can safely ignore this email. Your password will not change unless you click the button above.
+              </div>
+            </td>
+          </tr>
+        </table>
+        
+        <div style="height: 30px;"></div>
+        <div class="footer">
+          <p class="footer-text">
+            © ${year} Learnify Inc. • All rights reserved.<br>
+            <a href="#">Help Center</a> • <a href="#">Privacy Policy</a>
+          </p>
+        </div>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>
 `;

@@ -117,7 +117,7 @@ export const enrollments = async (req, res) => {
     const courses = await Enrollment.find({ user: userId })
       .populate({
         path: "course",
-        select: "title category thumbnail instructor",
+        select: "title category thumbnail instructor rating price",
         populate: {
           path: "instructor",
           select: "name", // nested populate

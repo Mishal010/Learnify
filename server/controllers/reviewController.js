@@ -141,13 +141,22 @@ export const deleteReview = async (req, res) => {
 export const getMyReviews = async (req, res) => {
   try {
     const userId = req.user._id;
+    const { page, limit } = req.query;
 
-    const reviews = await Review.find({ user: userId })
-      .populate("course", "title thumbnail _id") // optional
-      .sort({ createdAt: -1 });
+    const query = { user: userId };
+    const reviews = await paginate(Review, query, {
+      page,
+      limit,
+      sort: { createdAt: -1 },
+      populate: {
+        path: "course",
+        select: "title thumbnail _id",
+      },
+    });
+
     res.status(200).json({
       success: true,
-      reviews,
+      ...reviews,
     });
   } catch (error) {
     console.error(`Get My Reviews Error: ${error}`);

@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Course from "../model/Course.js";
 import Lecture from "../model/Lecture.js";
 import Enrollment from "../model/Enrollment.js";
@@ -174,6 +175,9 @@ export const deleteLecture = async (req, res) => {
 export const getCourseLectures = async (req, res) => {
   try {
     const { courseId } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(courseId)) {
+      return res.status(404).json({ success: false, message: "Course not found" });
+    }
 
     const course = await Course.findById(courseId);
 
@@ -219,6 +223,9 @@ export const getCourseLectures = async (req, res) => {
 export const getParticularLecture = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(404).json({ success: false, message: "Lecture not found" });
+    }
     const lecture = await Lecture.findById(id);
     if (!lecture) {
       return res
