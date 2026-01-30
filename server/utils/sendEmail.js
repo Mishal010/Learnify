@@ -5,7 +5,6 @@ const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST,
   port: Number(process.env.EMAIL_PORT),
   secure: String(process.env.EMAIL_SECURE) === "true",
-  requireTLS: true,
   logger:true,
   debug:true,
   auth: {
