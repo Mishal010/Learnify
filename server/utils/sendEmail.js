@@ -2,20 +2,16 @@ import nodemailer from "nodemailer";
 import "dotenv/config";
 
 const transporter = nodemailer.createTransport({
- /* host: process.env.EMAIL_HOST,
+  host: process.env.EMAIL_HOST,
   port: Number(process.env.EMAIL_PORT),
   secure: String(process.env.EMAIL_SECURE) === "true",
   logger:true,
-  debug:true,*/
+  debug:true,
   service: process.env.EMAIL_HOST,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
-  /*family: 4,
-  tls: {
-    ciphers: 'SSLv3'
-  }*/
 });
 
 export const sendEmail = async ({ to, subject, html, replyTo }) => {
