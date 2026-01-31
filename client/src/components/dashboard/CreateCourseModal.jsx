@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { getUploadSignatureApi } from "../../api/courseApi";
 import { imagekit } from "../../utils/imageKit";
 import { useCreateCourse } from "../../hooks/mutation/useCreateCourse";
+import { COURSE_CATEGORIES } from "../../constants/categories";
 
 const CreateCourseModal = ({ open, onClose }) => {
   const [form, setForm] = useState({
@@ -107,13 +108,19 @@ const CreateCourseModal = ({ open, onClose }) => {
           {/* Category */}
           <div className="flex flex-col">
             <label className="font-semibold">Category</label>
-            <input
+            <select
               name="category"
               value={form.category}
               onChange={handleChange}
-              className="mt-1 p-2 border rounded-md"
-              placeholder="Category"
-            />
+              className="mt-1 p-2 border rounded-md bg-white"
+            >
+              <option value="">Select a category</option>
+              {COURSE_CATEGORIES.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
           </div>
 
           {/* Description */}

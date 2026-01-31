@@ -26,7 +26,7 @@ const Analytics = () => {
       data: data.revenue,
     },
     {
-      label: "Total Revenue",
+      label: "Average Rating",
       icon: Stars,
       data: data.avgRating,
     },

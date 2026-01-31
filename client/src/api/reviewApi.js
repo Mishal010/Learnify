@@ -1,7 +1,9 @@
 import axiosInstance from "./axiosClient";
 
-export const myReviewsApi = async () => {
-  const response = await axiosInstance.get("/review/my-reviews");
+export const myReviewsApi = async ({ page = 1, limit = 10 } = {}) => {
+  const response = await axiosInstance.get(
+    `/review/my-reviews?page=${page}&limit=${limit}`
+  );
   return response.data;
 };
 

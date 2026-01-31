@@ -6,7 +6,6 @@ import { useAddToCart } from "../hooks/mutation/useAddToCart";
 
 const CourseCard = ({ course, index }) => {
   const navigate = useNavigate();
-
   const formatPrice = (price) => `₹${price}`;
 
   const addToCart = useAddToCart();

@@ -8,8 +8,10 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuthStore();
-  const { data: cartData } = useCart();
-  const cartCount = cartData?.cart?.items?.length || 0;
+  const { data: cartData } = useCart({ enabled: isAuthenticated });
+  const rawCartItems = cartData?.cart?.items || [];
+  const cartCount = rawCartItems.filter((i) => i && i.course && i.course._id)
+    .length;
   return (
     <nav className="sticky top-0 left-0 w-full z-50 gap-2 flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-300 bg-white transition-all shadow-sm">
       <NavLink to="/" className="text-3xl font-semibold">
@@ -62,12 +64,21 @@ const Navbar = () => {
               name={user.name}
               size={30}
               bg="bg-blue-500"
-              onClick={() => console.log("Profile clicked")}
+              onClick={() => {
+                if (!user) return navigate("/login");
+                if (user.role === "admin") return navigate("/admin");
+                if (user.role === "teacher") return navigate("/instructor");
+                if (user.role === "student") return navigate("/student");
+                return navigate("/");
+              }}
             />
             <span className="absolute h-[20px] w-[20px] rounded-full z-5 bg-green-500 animate-ping" />
           </div>
         ) : (
-          <button className="cursor-pointer px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full">
+          <button
+            onClick={() => navigate("/login")}
+            className="cursor-pointer px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full"
+          >
             Login
           </button>
         )}
@@ -110,7 +121,13 @@ const Navbar = () => {
         <NavLink to="/contact-us" className="block">
           Contact
         </NavLink>
-        <button className="cursor-pointer px-6 py-2 mt-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full text-sm">
+        <button
+          onClick={() => {
+            navigate("/login");
+            setOpen(false);
+          }}
+          className="cursor-pointer px-6 py-2 mt-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full text-sm"
+        >
           Login
         </button>
       </div>

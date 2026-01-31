@@ -9,36 +9,47 @@ const axiosInstance = axios.create({
 
 let isRefreshing = false;
 let failedQueue = [];
-let refreshCallCount = 0;
 
 const processQueue = (error, token = null) => {
-  failedQueue.forEach((prom) => {
-    if (error) {
-      prom.reject(error);
-    } else {
-      prom.resolve(token);
-    }
+  failedQueue.forEach(({ resolve, reject }) => {
+    if (error) reject(error);
+    else resolve(token);
   });
   failedQueue = [];
 };
 
+/* ================= REQUEST ================= */
 axiosInstance.interceptors.request.use((config) => {
   const { accessToken } = useAuthStore.getState();
+
   if (accessToken) {
     config.headers = config.headers || {};
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
+
   return config;
 });
 
+/* ================= RESPONSE ================= */
 axiosInstance.interceptors.response.use(
   (res) => res,
   async (error) => {
     const originalRequest = error.config;
 
-    if (!originalRequest) return Promise.reject(error);
+    if (!originalRequest) {
+      return Promise.reject(error);
+    }
 
-    if (originalRequest.url.includes("/auth/refresh")) {
+    // ⛔ NEVER refresh on refresh endpoint
+    if (originalRequest.url?.includes("/auth/refresh")) {
+      useAuthStore.getState().logout();
+      return Promise.reject(error);
+    }
+
+    const { isAuthenticated } = useAuthStore.getState();
+
+    // ⛔ Do NOT refresh for guests (public APIs)
+    if (!isAuthenticated) {
       return Promise.reject(error);
     }
 
@@ -46,33 +57,28 @@ axiosInstance.interceptors.response.use(
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
-        })
-          .then((newToken) => {
-            if (newToken) {
-              originalRequest.headers.Authorization = `Bearer ${newToken}`;
-            }
-            return axiosInstance(originalRequest);
-          })
-          .catch((err) => Promise.reject(err));
+        }).then((newToken) => {
+          originalRequest.headers.Authorization = `Bearer ${newToken}`;
+          return axiosInstance(originalRequest);
+        });
       }
 
       originalRequest._retry = true;
       isRefreshing = true;
 
       try {
-        refreshCallCount++;
-        console.log("🔄 Refresh token called:", refreshCallCount, "times");
         const data = await refreshAccessToken();
-        if (!data?.accessToken) {
-          useAuthStore.getState().logout();
-          processQueue(null, null);
-          return Promise.reject(error);
-        }
-        useAuthStore.getState().setAuth(data.user, data.accessToken);
 
+        if (!data?.accessToken) {
+          throw new Error("Refresh failed");
+        }
+
+        useAuthStore.getState().setAuth(data.user, data.accessToken);
         processQueue(null, data.accessToken);
 
-        originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
+        originalRequest.headers.Authorization =
+          `Bearer ${data.accessToken}`;
+
         return axiosInstance(originalRequest);
       } catch (err) {
         processQueue(err, null);
@@ -82,6 +88,7 @@ axiosInstance.interceptors.response.use(
         isRefreshing = false;
       }
     }
+
     return Promise.reject(error);
   }
 );

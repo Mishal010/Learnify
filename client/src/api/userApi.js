@@ -1,9 +1,12 @@
 import axiosInstance from "./axiosClient";
 
-export const getAllUserApi = async ({ page, limit, role }) => {
-  const response = await axiosInstance.get(
-    `/user/all?page=${page}&limit=${limit}&role=${role}`
-  );
+export const getAllUserApi = async ({ page = 1, limit = 12, role = "" }) => {
+  const params = new URLSearchParams();
+  params.set("page", String(page));
+  params.set("limit", String(limit));
+  if (role) params.set("role", role);
+
+  const response = await axiosInstance.get(`/user/all?${params.toString()}`);
   return response.data;
 };
 
@@ -28,6 +31,6 @@ export const deleteUserApi = async ({ id }) => {
 };
 
 export const enrolledCourseApi = async () => {
-  const response = await axiosInstance.get("/user/enrollment");
+  const response = await axiosInstance.get("/user/my-enrollments");
   return response.data;
 };

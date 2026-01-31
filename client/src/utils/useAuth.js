@@ -1,27 +1,42 @@
 import { useEffect, useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { refreshAccessToken } from "../api/authApi";
+
 export const useAuth = () => {
-  const { user, accessToken, isAuthenticated, setAuth, logout } =
-    useAuthStore();
+  const {
+    user,
+    accessToken,
+    isAuthenticated,
+    authInitialized,
+    setAuth,
+    logout,
+  } = useAuthStore();
+
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    (async () => {
+    const initAuth = async () => {
       try {
         const data = await refreshAccessToken();
 
         if (data?.accessToken && data?.user) {
-          setAuth(data?.user, data?.accessToken);
+          setAuth(data.user, data.accessToken);
         } else {
           logout();
         }
-      } catch (error) {
+      } catch {
         logout();
       } finally {
         setLoading(false);
       }
-    })();
-  }, []);
+    };
+
+    if (!authInitialized) {
+      initAuth();
+    } else {
+      setLoading(false);
+    }
+  }, [authInitialized]);
 
   return { user, accessToken, isAuthenticated, loading };
 };

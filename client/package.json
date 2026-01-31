@@ -37,5 +37,18 @@
     "videojs-contrib-quality-levels": "^3.0.0",
     "videojs-http-source-selector": "^1.1.6",
     "vite": "^7.1.7"
-  }
+  },
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
+  "main": "eslint.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WebWizards-org/client.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WebWizards-org/client/issues"
+  },
+  "homepage": "https://github.com/WebWizards-org/client#readme"
 }

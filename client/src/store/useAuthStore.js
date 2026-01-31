@@ -27,26 +27,33 @@ import { devtools } from "zustand/middleware";
 export const useAuthStore = create(
   devtools((set) => ({
     user: null,
-    isAuthenticated: false,
     accessToken: null,
 
+    // 🔑 NEW
+    isAuthenticated: false,
+    authInitialized: false,
+
+    /* ================= SET AUTH ================= */
     setAuth: (user, token) =>
       set(
         () => ({
           user,
           accessToken: token,
-          isAuthenticated: !!token,
+          isAuthenticated: true,
+          authInitialized: true,
         }),
         false,
         "auth/setAuth"
       ),
 
+    /* ================= LOGOUT ================= */
     logout: () =>
       set(
         () => ({
           user: null,
           accessToken: null,
           isAuthenticated: false,
+          authInitialized: true,
         }),
         false,
         "auth/logout"

@@ -45,7 +45,7 @@ export const createCheckoutSession = async (req, res) => {
 
     const totalAmount = cart.items.reduce(
       (sum, item) => sum + item.course.price,
-      0
+      0,
     );
 
     const frontendUrl = process.env.FRONTEND_URL || process.env.CLIENT_URL;
@@ -98,7 +98,7 @@ export const handleStripeWebhook = async (req, res) => {
     event = stripe.webhooks.constructEvent(
       req.body,
       sig,
-      process.env.STRIPE_WEBHOOK_SECRET
+      process.env.STRIPE_WEBHOOK_SECRET,
     );
   } catch (err) {
     console.error("Webhook signature verification failed:", err.message);
@@ -263,7 +263,10 @@ export const getAllPayments = async (req, res) => {
       page,
       limit,
       sort: { createdAt: -1 },
-      populate: [{ path: "user", select: "name email" }, { path: "courses", select: "title" }],
+      populate: [
+        { path: "user", select: "name email" },
+        { path: "courses", select: "title" },
+      ],
     });
 
     res.status(200).json({ success: true, ...data });
