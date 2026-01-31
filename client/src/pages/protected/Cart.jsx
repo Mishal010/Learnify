@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import React from "react";
 import { motion } from "motion/react";
+import { Link } from "react-router-dom";
 import { useCart } from "../../hooks/queries/useCart";
 import { createCheckoutSessionApi } from "../../api/cartApi";
 import toast from "react-hot-toast";
@@ -102,12 +103,12 @@ const Cart = () => {
             <p className="text-gray-600 text-lg mb-6">
               Add some courses to get started with your learning journey!
             </p>
-            <a
-              href="/explore"
+            <Link
+              to="/explore"
               className="inline-block bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg"
             >
               Browse Courses
-            </a>
+            </Link>
           </motion.div>
         ) : (
           <div className="grid lg:grid-cols-3 gap-8">

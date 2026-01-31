@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 const Footer = () => {
   return (
     <>
@@ -18,19 +18,19 @@ const Footer = () => {
           reservered.
         </p>
         <div className="flex items-center gap-4 mt-6">
-          <a
-            href="#"
+          <Link
+            to="#"
             className="font-medium text-gray-800 hover:text-black transition-all"
           >
             Brand Guidelines
-          </a>
+          </Link>
           <div className="h-4 w-px bg-black/20"></div>
-          <a
-            href="#"
+          <Link
+            to="#"
             className="font-medium text-gray-800 hover:text-black transition-all"
           >
             Trademark Policy
-          </a>
+          </Link>
         </div>
       </footer>
     </>
