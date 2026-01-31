@@ -82,12 +82,12 @@ const AppRouter = () => {
       />
       <Route path="/" element={<MainLayout />}>
         <Route index element={<HomePage />} />
-        <Route path="/explore" element={<Explore />} />
-        <Route path="/explore/:id" element={<CourseDetails />} />
-        <Route path="/contact-us" element={<ContactUs />} />
-        <Route path="/about-us" element={<About />} />
+        <Route path="explore" element={<Explore />} />
+        <Route path="explore/:id" element={<CourseDetails />} />
+        <Route path="contact-us" element={<ContactUs />} />
+        <Route path="about-us" element={<About />} />
         <Route
-          path="/course/:courseId"
+          path="course/:courseId"
           element={
             <ProtectedRoute isAuthenticated={isAuthenticated}>
               <CoursePlayer />
@@ -95,7 +95,7 @@ const AppRouter = () => {
           }
         />
         <Route
-          path="/cart"
+          path="cart"
           element={
             <ProtectedRoute isAuthenticated={isAuthenticated}>
               <Cart />
@@ -103,7 +103,7 @@ const AppRouter = () => {
           }
         />
         <Route
-          path="/payment-success"
+          path="payment-success"
           element={
             <ProtectedRoute isAuthenticated={isAuthenticated}>
               <PaymentSuccess />
@@ -111,7 +111,7 @@ const AppRouter = () => {
           }
         />
         <Route
-          path="/payment-failed"
+          path="payment-failed"
           element={
             <ProtectedRoute isAuthenticated={isAuthenticated}>
               <PaymentFailed />
@@ -235,6 +235,7 @@ const AppRouter = () => {
         <Route path="reviews" element={<StudentReviews />} />
         <Route path="profile" element={<Profile />} />
       </Route>
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 };
